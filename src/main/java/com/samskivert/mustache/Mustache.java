@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Collection;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -207,6 +208,12 @@ public class Mustache {
           * then empty strings are considered falsey. If {@link #zeroIsFalse} is true, then zero
           * values are considered falsey. */
         public boolean isFalsey (Object value) {
+            if (value instanceof Collection) {
+                return false;
+            }
+            if (value instanceof Map) {
+                return false;
+            }
             return ((emptyStringIsFalse && isEmptyCharSequence(formatter.format(value))) ||
                     (zeroIsFalse && (value instanceof Number) && ((Number)value).longValue() == 0));
         }
